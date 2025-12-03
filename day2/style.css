@@ -1,0 +1,89 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  background: #d6dbdf;
+  display: flex;
+  justify-content: center;
+}
+
+.container-1 {
+  margin: 50px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 900px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+}
+
+.container-2 {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-3 {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+
+.contact {
+  width: 80px;
+  background-color: #111827;
+  color: white;
+  padding: 5px 24px;
+  border: none;
+  text-decoration: none;
+  border-radius: 20px;
+  font-weight: 300;
+  text-align: center;
+}
+
+.cv {
+  display: flex;
+}
+
+.cv img {
+  margin: 10px;
+}
+
+.social {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+p {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.card {
+  width: 350px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  text-align: center;
+}
+.card p {
+  text-align: center;
+  margin: 8px;
+}
+.card h2 {
+  margin: 8px;
+}
+
+.card img {
+  width: 350px;
+  border-radius: 10px 10px 0 0;
+}
