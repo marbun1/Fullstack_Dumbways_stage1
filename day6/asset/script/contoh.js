@@ -3,7 +3,6 @@ let projects = JSON.parse(localStorage.getItem("projects")) || [];
 
 // Render data saat halaman pertama kali dibuka
 renderProjects();
-
 document.getElementById("projectForm").addEventListener("submit", function(e) {
   e.preventDefault();
 
@@ -47,7 +46,6 @@ function saveProject(project) {
   document.getElementById("projectForm").reset();
 }
 
-// Render project list di luar form, horizontal
 function renderProjects() {
   const container = document.getElementById("projectList");
   container.innerHTML = "";
@@ -62,14 +60,17 @@ function renderProjects() {
 
     container.innerHTML += `
       <div class="project card">
-        ${p.imageUrl ? `<img src="${p.imageUrl}" alt="Project Image" style="width:100px; border-radius:8px;">` : ""}
+        ${p.imageUrl ? `<img src="${p.imageUrl}" alt="Project Image" style="width:100px;border-radius:8px;">` : ""}
         <div class="card-content">
-          <h5>${p.id}. ${p.name}</h5>
+          <h5 class="project-title" onclick="showDetail(${p.id})" style="cursor:pointer;">
+            ${p.id}. ${p.name}
+          </h5>
           <p><strong>${p.start}</strong> - <strong>${p.end}</strong></p>
           <p>${p.desc}</p>
           <p><strong>Tech:</strong> ${techStack}</p>
+
           <div class="mt-2">
-            <button onclick="showDetail(${p.id})">Detail</button>
+            <button onclick="editProject(${p.id})">Edit</button>
             <button onclick="deleteProject(${p.id})">Hapus</button>
           </div>
         </div>
@@ -78,18 +79,17 @@ function renderProjects() {
   });
 }
 
-
 function deleteProject(id) {
   projects = projects.filter(p => p.id !== id);
-
-  // Reorder ID
   projects = projects.map((p, i) => ({ ...p, id: i + 1 }));
-
   localStorage.setItem("projects", JSON.stringify(projects));
   renderProjects();
 }
 
-
 function showDetail(id) {
   window.location.href = `detailProject.html?id=${id}`;
+}
+
+function editProject(id) {
+  window.location.href = `edit.html?id=${id}`;
 }
