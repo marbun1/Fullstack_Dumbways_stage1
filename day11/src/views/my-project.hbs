@@ -93,12 +93,12 @@
                 <img src="{{this.image}}" class="img-fluid mb-2" />
               {{/if}}
 
-              <h5>{{this.projectName}}</h5>
-              <p><b>Date:</b> {{this.startDate}} → {{this.endDate}}</p>
+              <h5><p>Project Name :{{this.project_name}}</p></h5>
+              <p><b>Date:</b> {{this.start_date}} → {{this.end_date}}</p>
               <p>{{this.description}}</p>
+              <button class="btn btn-danger btn-sm mt-2" onclick="deleteProject({{this.id}})">Hapus</button>
             </div>
           </a>
-          <button class="btn btn-danger btn-sm mt-2" onclick="deleteProject({{this.id}})">Hapus</button>
         </div>
       {{/each}}
     </div>
