@@ -7,6 +7,7 @@ const { Pool } = require("pg");
 const app = express();
 const port = 4000;
 
+
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -15,13 +16,20 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
+
+app.locals.pool = pool;
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/assets", express.static(path.join(__dirname, "src", "assets")));
-
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "src", "views"));
+
+const authRouter = require("./src/assets/js/authentication");
+app.use(authRouter);
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -31,27 +39,21 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + "-" + file.originalname);
   },
 });
-const upload = multer({ storage })
+const upload = multer({ storage });
 
-// HOME
+
 app.get("/home", async (req, res) => {
   const result = await pool.query("SELECT * FROM my_project ORDER BY id DESC");
   res.render("home", { projects: result.rows });
 });
 
-// MY PROJECT
 app.get("/my-project", async (req, res) => {
   const result = await pool.query("SELECT * FROM my_project ORDER BY id DESC");
   res.render("my-project", { projects: result.rows });
-  console.log(result.rows);
-
 });
 
-// ADD PROJECT
 app.post("/add-project", upload.single("image"), async (req, res) => {
-  const { projectName, startDate, endDate, description, tech } =
-    req.body;
-
+  const { projectName, startDate, endDate, description, tech } = req.body;
 
   const imagePath = req.file ? "/assets/images/" + req.file.filename : null;
 
@@ -72,7 +74,6 @@ app.post("/add-project", upload.single("image"), async (req, res) => {
   res.redirect("/my-project");
 });
 
-// DETAIL PROJECT
 app.get("/project/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -87,25 +88,22 @@ app.get("/project/:id", async (req, res) => {
   res.render("detail-project", { project: result.rows[0] });
 });
 
-// DELETE PROJECT
+
 app.delete("/project/:id", async (req, res) => {
   const { id } = req.params;
-
   await pool.query("DELETE FROM my_project WHERE id = $1", [id]);
-
   res.json({ message: "Project berhasil dihapus" });
 });
 
-// CONTACT
 app.get("/contact", (req, res) => {
   res.render("contact");
 });
 
-// TEST DB CONNECTION
 app.get("/test-db", async (req, res) => {
   const result = await pool.query("SELECT NOW()");
   res.json(result.rows);
 });
+
 
 app.listen(port, () => {
   console.log(`Server berjalan di http://localhost:${port}`);
